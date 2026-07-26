@@ -302,9 +302,30 @@ export const doghouse: Project = {
   ],
 
   customization: [
-    { id: "paint-red", label: "Friendly Red", category: "paint", image: "customization/paint-doghouse-red.png", color: "#FF5E5E" },
-    { id: "paint-blue", label: "Sky Blue", category: "paint", image: "customization/paint-doghouse-blue.png", color: "#6EC6FF" },
-    { id: "paint-yellow", label: "Sunny Yellow", category: "paint", image: "customization/paint-doghouse-yellow.png", color: "#FFD34D" },
+    {
+      id: "paint-red",
+      label: "Friendly Red",
+      category: "paint",
+      image: "customization/paint-doghouse-red.png",
+      color: "#FF5E5E",
+      sceneVariant: "scenes/project-doghouse-stage-05-decorated-red.png",
+    },
+    {
+      id: "paint-blue",
+      label: "Sky Blue",
+      category: "paint",
+      image: "customization/paint-doghouse-blue.png",
+      color: "#6EC6FF",
+      sceneVariant: "scenes/project-doghouse-stage-05-decorated-blue.png",
+    },
+    {
+      id: "paint-yellow",
+      label: "Sunny Yellow",
+      category: "paint",
+      image: "customization/paint-doghouse-yellow.png",
+      color: "#FFD34D",
+      sceneVariant: "scenes/project-doghouse-stage-05-decorated-yellow.png",
+    },
     { id: "deco-flag", label: "Flag", category: "decoration", image: "customization/decoration-doghouse-flag.png" },
     { id: "deco-bone-sign", label: "Bone Sign", category: "decoration", image: "customization/decoration-doghouse-bone-sign.png" },
   ],
