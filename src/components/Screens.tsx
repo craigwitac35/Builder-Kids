@@ -1,7 +1,7 @@
 "use client";
 
 import { useGame } from "@/lib/game";
-import { getChallenge, getProject, isPlayable, projects } from "@/data/registry";
+import { getChallenge, getFinishedImage, getProject, isPlayable, projects } from "@/data/registry";
 import { initialProjectProgress, type Project } from "@/data/types";
 import { GameImage } from "./GameImage";
 import { SelectChallenge } from "./SelectChallenge";
@@ -215,12 +215,10 @@ function CustomizeScreen({ projectId }: { projectId: string }) {
     <div className="screen customize-screen">
       <h2 className="screen-heading">Make it yours!</h2>
       <GameImage
-        src={project.stages[project.stages.length - 1].image}
-        label={`${project.name} — finished`}
+        src={getFinishedImage(project, progress)}
+        label={`${project.name} — preview`}
         tone="grass"
         className="customize-preview"
-        // Paint tint preview happens once real art supports it; for now the
-        // chosen swatch outlines below show the selection.
       />
       <div className="customize-groups">
         <div className="customize-group">
@@ -288,7 +286,7 @@ function CompleteScreen({ projectId }: { projectId: string }) {
       </div>
       <h2 className="screen-heading">You did it!</h2>
       <GameImage
-        src={project.stages[project.stages.length - 1].image}
+        src={getFinishedImage(project, progress)}
         label={`${project.name} — finished`}
         tone="grass"
         className="complete-scene"
@@ -338,7 +336,7 @@ function CollectionScreen() {
               {done ? (
                 <>
                   <GameImage
-                    src={p.stages[p.stages.length - 1].image}
+                    src={getFinishedImage(p, prog!)}
                     label={p.name}
                     tone="grass"
                     className="collection-thumb"
