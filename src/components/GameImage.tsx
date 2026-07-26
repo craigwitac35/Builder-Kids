@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * The placeholder system.
@@ -23,6 +23,12 @@ export function GameImage({
   tone?: "wood" | "sky" | "grass" | "sun" | "steel";
 }) {
   const [missing, setMissing] = useState(false);
+
+  // If the src changes (e.g. customize preview swapping paint variants),
+  // forget any earlier load failure and try the new image fresh.
+  useEffect(() => {
+    setMissing(false);
+  }, [src]);
 
   if (missing) {
     return (
