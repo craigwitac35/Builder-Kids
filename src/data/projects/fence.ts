@@ -1,3 +1,4 @@
+
 import type { Project } from "../types";
 
 /**
@@ -31,9 +32,30 @@ export const fence: Project = {
   challenges: [],
 
   customization: [
-    { id: "paint-white", label: "White", category: "paint", image: "customization/paint-fence-white.png", color: "#F4EFE6" },
-    { id: "paint-brown", label: "Wood Brown", category: "paint", image: "customization/paint-fence-brown.png", color: "#9A6B3F" },
-    { id: "paint-blue", label: "Sky Blue", category: "paint", image: "customization/paint-fence-blue.png", color: "#6EC6FF" },
+    {
+      id: "paint-white",
+      label: "White",
+      category: "paint",
+      image: "customization/paint-fence-white.png",
+      color: "#F4EFE6",
+      sceneVariant: "scenes/project-fence-stage-05-decorated-white.png",
+    },
+    {
+      id: "paint-brown",
+      label: "Wood Brown",
+      category: "paint",
+      image: "customization/paint-fence-brown.png",
+      color: "#9A6B3F",
+      sceneVariant: "scenes/project-fence-stage-05-decorated-brown.png",
+    },
+    {
+      id: "paint-blue",
+      label: "Sky Blue",
+      category: "paint",
+      image: "customization/paint-fence-blue.png",
+      color: "#6EC6FF",
+      sceneVariant: "scenes/project-fence-stage-05-decorated-blue.png",
+    },
     { id: "deco-flowers", label: "Flowers", category: "decoration", image: "customization/decoration-fence-flowers.png" },
     { id: "deco-sign", label: "Sign", category: "decoration", image: "customization/decoration-fence-sign.png" },
   ],
