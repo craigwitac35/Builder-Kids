@@ -107,6 +107,13 @@ export interface CustomizationOption {
   image: string;
   /** Hex from the locked Builder Kids palette (used for paint swatch UI). */
   color?: string;
+  /**
+   * For 'paint' options only: the FULL finished-scene image showing the
+   * project painted this color (e.g. "scenes/project-doghouse-stage-05-decorated-red.png").
+   * If unset, the project's default final-stage image is used instead —
+   * so this can be added incrementally, one color at a time, without breaking anything.
+   */
+  sceneVariant?: string;
 }
 
 export interface ProjectStage {
