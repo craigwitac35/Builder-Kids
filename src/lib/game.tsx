@@ -39,6 +39,7 @@ type Action =
   | { type: "hydrate"; player: PlayerState }
   | { type: "go"; screen: Screen }
   | { type: "start-project"; projectId: string }
+  | { type: "step-completed"; projectId: string }
   | {
       type: "challenge-solved";
       projectId: string;
@@ -85,6 +86,42 @@ function reducer(state: GameState, action: Action): GameState {
         player: {
           ...state.player,
           projects: { ...state.player.projects, [action.projectId]: progress },
+        },
+      };
+    }
+
+    case "step-completed": {
+      const project = getProject(action.projectId);
+      if (!project) return state;
+      const prev = progressFor(state.player, action.projectId);
+      const step = project.steps[prev.stepIndex];
+      if (!step) return state;
+
+      const nextStepIndex = prev.stepIndex + 1;
+      const screen: Screen = nextStepIndex >= project.steps.length
+        ? { name: "customize", projectId: project.id }
+        : state.screen;
+      const inventory = step.resource
+        ? {
+            ...state.player.inventory,
+            [step.resource]: (state.player.inventory[step.resource] ?? 0) + 1,
+          }
+        : state.player.inventory;
+      const progress: ProjectProgress = {
+        ...prev,
+        stepIndex: nextStepIndex,
+        challengeIndex: 0,
+        stage: Math.min(step.stageAfter, project.stages.length - 1),
+      };
+
+      return {
+        ...state,
+        screen,
+        player: {
+          ...state.player,
+          coins: state.player.coins + step.rewardCoins,
+          inventory,
+          projects: { ...state.player.projects, [project.id]: progress },
         },
       };
     }
