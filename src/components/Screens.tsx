@@ -3,8 +3,10 @@
 import { useGame } from "@/lib/game";
 import { getChallenge, getFinishedImage, getProject, isPlayable, projects } from "@/data/registry";
 import { initialProjectProgress, type Project } from "@/data/types";
+import { useEffect } from "react";
 import { GameImage } from "./GameImage";
 import { SelectChallenge } from "./SelectChallenge";
+import { GatherBoardsMiniGame } from "./GatherBoardsMiniGame";
 
 /* ---------------------------------- */
 /* Router                             */
@@ -123,11 +125,11 @@ function GameplayScreen({ projectId }: { projectId: string }) {
   const progress = state.player.projects[projectId] ?? initialProjectProgress();
   const step = project.steps[progress.stepIndex];
 
-  // Safety: if progress ran past the end (shouldn't happen), go to customize.
-  if (!step) {
-    dispatch({ type: "go", screen: { name: "customize", projectId } });
-    return null;
-  }
+  useEffect(() => {
+    if (!step) dispatch({ type: "go", screen: { name: "customize", projectId } });
+  }, [step, dispatch, projectId]);
+
+  if (!step) return null;
 
   const challengeId = step.challengeIds[progress.challengeIndex];
   const challenge = getChallenge(project, challengeId);
@@ -173,29 +175,34 @@ function GameplayScreen({ projectId }: { projectId: string }) {
         </div>
       </header>
 
-      {/* Construction scene — the main reward, biggest thing on screen */}
-      <main className="scene-wrap">
-        <GameImage
-          src={stage.image}
-          label={`${project.name} — ${stage.label}`}
-          tone="grass"
-          className="scene-img"
+      {step.id === "gather" ? (
+        <GatherBoardsMiniGame
+          sceneImage={stage.image}
+          rewardCoins={step.rewardCoins}
+          onComplete={() => dispatch({ type: "step-completed", projectId })}
         />
-        {step.kind === "resource" && (
-          <span className="scene-tag">Mini-game: gather {step.resource}</span>
-        )}
-      </main>
+      ) : (
+        <>
+          <main className="scene-wrap">
+            <GameImage
+              src={stage.image}
+              label={`${project.name} — ${stage.label}`}
+              tone="grass"
+              className="scene-img"
+            />
+          </main>
 
-      {/* Challenge panel */}
-      <footer className="challenge-wrap">
-        <SelectChallenge
-          key={challenge.id}
-          challenge={challenge as never}
-          onSolved={(helpUsed) =>
-            dispatch({ type: "challenge-solved", projectId, challengeId: challenge.id, helpUsed })
-          }
-        />
-      </footer>
+          <footer className="challenge-wrap">
+            <SelectChallenge
+              key={challenge.id}
+              challenge={challenge as never}
+              onSolved={(helpUsed) =>
+                dispatch({ type: "challenge-solved", projectId, challengeId: challenge.id, helpUsed })
+              }
+            />
+          </footer>
+        </>
+      )}
     </div>
   );
 }
